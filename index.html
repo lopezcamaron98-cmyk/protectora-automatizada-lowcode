@@ -32,7 +32,7 @@
         .info-perro { padding: 0.5rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
         .info-perro h3 { font-size: 1.125rem; font-weight: bold; color: #111827; margin: 0; }
         .info-perro p { font-size: 0.875rem; color: #4b5563; margin: 0; line-height: 1.4; }
-        .btn-adoptar { background-color: #16a34a; color: #ffffff; width: 100%; padding: 0.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background-color 0.2s; }
+        .btn-adoptar { background-color: #16a34a; color: #ffffff; width: 100%; padding: 0.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background-color 0.2s; margin-top: 1rem; }
         .btn-adoptar:hover { background-color: #15803d; }
         footer { background-color: #ffffff; border-top: 1px solid #dcfce7; text-align: center; padding: 1rem; font-size: 0.875rem; color: #9ca3af; margin-top: auto; }
     </style>
@@ -57,7 +57,7 @@
         <section id="seccion-inicio" class="section-visible">
             <div class="card-inicio">
                 <div class="img-container">
-                    <img src="https://unsplash.com" alt="Perro feliz">
+                    //quito el enlace de momento
                 </div>
                 <div class="texto-container">
                     <h2>Bienvenidos a nuestra protectora</h2>
@@ -66,41 +66,20 @@
             </div>
         </section>
 
-        <!-- PESTAÑA 2: PERROS (NUEVA ESTRUCTURA DE CAMPOS) -->
+        <!-- PESTAÑA 2: PERROS -->
         <section id="seccion-perros" class="section-hidden">
             <div class="grid-perros" id="contenedor-perros">
-                
-                <!-- ESTA ES LA ESTRUCTURA DE LA TARJETA (Se clonará sola con Airtable) -->
-                <!-- Te dejo una de muestra para que veas cómo quedan los campos nuevos -->
-                <div class="card-perro">
-                    <div class="img-perro">
-                        <img src="https://unsplash.com" alt="Perro de muestra">
-                    </div>
-                    <div class="info-perro">
-                        <h3>Nombre del Perro</h3>
-                        <p class="descripcion-corta">Aquí irá la descripción detallada del perro extraída de Airtable.</p>
-                        
-                        <!-- Bloque de datos nuevos maquetados limpios -->
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-                            <span style="background-color: #dcfce7; color: #16a34a; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Tam: Grande</span>
-                            <span style="background-color: #f3f4f6; color: #4b5563; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Edad: 2 años</span>
-                            <span style="background-color: #f3f4f6; color: #4b5563; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Sexo: Macho</span>
-                            <span style="background-color: #fee2e2; color: #ef4444; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">🐱 Gatos: No</span>
-                            <span style="background-color: #dcfce7; color: #16a34a; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">🐶 Perros: Sí</span>
-                            <span style="background-color: #fef08a; color: #ca8a04; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Actividad: Alta</span>
-                        </div>
-                    </div>
-                    <button class="btn-adoptar">Adoptar</button>
-                </div>
-
+                <p>Cargando perros desde la base de datos...</p>
             </div>
         </section>
     </main>
 
     <footer>
-        &copy; 2026 Protectora Huellas Felices. Entorno de Desarrollo DAW.
+        <p>&copy; 2026 Huellas Felices. Todos los derechos reservados.</p>
     </footer>
 
+ <!-- Limpio: Sin librerías externas corruptibles -->
     <script src="app.js"></script>
 </body>
 </html>
+
