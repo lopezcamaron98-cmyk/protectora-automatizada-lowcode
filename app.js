@@ -1,4 +1,8 @@
+import { validateAdoptionRules } from './formulario.js';
+
+
 // Configuración de Supabase
+
 const SUPABASE_URL = 'https://tdvvmusnlumltrctausl.supabase.co'; // Tu URL real
 const SUPABASE_ANON_KEY = 'sb_publishable_R59ii3WGhJoU8KVILWgCSQ_EWl7894w'; // Tu Anon Key real
 
@@ -10,6 +14,10 @@ const btnPerros = document.getElementById('btn-perros');
 const seccionInicio = document.getElementById('seccion-inicio');
 const seccionPerros = document.getElementById('seccion-perros');
 const contenedorPerros = document.getElementById('contenedor-perros');
+
+//guarda el perro actual para el formulario
+let perroSeleccionadoActivo = null; // Guarda el perro actual para el filtro
+
 
 // Navegación de pestañas
 btnInicio.addEventListener('click', () => {
@@ -34,13 +42,29 @@ btnPerros.addEventListener('click', () => {
     fetchDogs();
 });
 
+// Listener para el botón "Back to Catalog" dentro del formulario
+document.getElementById('btn-volver-catalogo').addEventListener('click', () => {
+    // Al volver, nos aseguramos de que el formulario esté listo y limpio para la próxima vez
+    document.getElementById('adoption-form').style.display = 'flex';
+    document.getElementById('feedback-container').style.display = 'none';
+    document.getElementById('adoption-form').reset();
+    
+    // Cambiamos de vista regresando a las tarjetas
+    btnPerros.className = 'btn-active';
+    btnInicio.className = 'btn-inactive';
+    seccionPerros.className = 'section-visible';
+    seccionInicio.className = 'section-hidden';
+    document.getElementById('seccion-formulario').className = 'section-hidden';
+});
+
+
 // Consulta directa usando FETCH nativo (Sin librerías)
 async function fetchDogs() {
     try {
         contenedorPerros.innerHTML = '<p>Cargando perros desde la API...</p>';
 
         // Construimos la URL apuntando directamente a tu tabla 'dogs' con el orden deseado
-        const urlAPI = `${SUPABASE_URL}/rest/v1/dogs?select=id,name,gender,size,status,photo_url,activity_level,medical_needs,birth_date,dog_compatible,cat_compatible,child_compatible,descripcion&order=created_at.desc`;
+       const urlAPI = `${SUPABASE_URL}/rest/v1/dogs?select=id,name,gender,size,status,photo_url,activity_level,medical_needs,birth_date,dog_compatible,cat_compatible,child_compatible,beginer_compatible,descripcion&order=created_at.desc`;
 
         // Petición HTTP nativa con las cabeceras de seguridad requeridas por Supabase
         const respuesta = await fetch(urlAPI, {
@@ -121,10 +145,63 @@ async function fetchDogs() {
             `;
 
             contenedorPerros.appendChild(card);
-        });
+                     // Escuchamos el botón "Adopt" de esta tarjeta específica
+            const btnAdoptar = card.querySelector('.btn-adoptar');
+            btnAdoptar.addEventListener('click', () => {
+                perroSeleccionadoActivo = dog;
+                document.getElementById('form-dog-id').value = dog.id;
+                
+                document.getElementById('adoption-form').style.display = 'flex';
+                document.getElementById('feedback-container').style.display = 'none';
+                document.getElementById('adoption-form').reset();
+                
+                // Switch visual de las vistas
+                seccionInicio.className = 'section-hidden';
+                seccionPerros.className = 'section-hidden';
+                document.getElementById('seccion-formulario').className = 'section-visible';
+            });
+
+            contenedorPerros.appendChild(card);
+        }); // Cierre de dogs.forEach
 
     } catch (error) {
         console.error('Error en fetch:', error);
         contenedorPerros.innerHTML = `<p style="color: #b91c1c;">Error de conexión: ${error.message}</p>`;
     }
-}
+} 
+
+// Escuchador global para el envío del formulario de adopción
+const formularioAdoption = document.getElementById('adoption-form');
+const feedbackContainer = document.getElementById('feedback-container');
+
+formularioAdoption.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!perroSeleccionadoActivo) return;
+
+    const formDataInstance = new FormData(formularioAdoption);
+    const formValues = Object.fromEntries(formDataInstance.entries());
+
+    const veredicto = validateAdoptionRules(formValues, perroSeleccionadoActivo);
+
+    if (veredicto.isValid) {
+        console.log("Passed to Make", formValues);
+        alert("¡Filtro superado! Enviando a Make...");
+    } else {
+        formularioAdoption.style.display = 'none';
+        const listaErroresHTML = veredicto.reasons.map(reason => `<li>${reason}</li>`).join('');
+        
+        feedbackContainer.innerHTML = `
+            <h3 style="margin-top: 0; font-size: 1.15rem; color: #991b1b;">Application Verdict: Unsuccessful</h3>
+            <p style="margin: 0.5rem 0 1rem 0; font-size: 0.95rem; color: #4b5563;">Based on your responses, we detected the following incompatibilities:</p>
+            <ul style="padding-left: 1.25rem; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #1f2937; line-height: 1.5;">
+                ${listaErroresHTML}
+            </ul>
+            <p style="font-weight: bold; margin: 0; color: #16a34a; font-size: 0.95rem;">
+                We encourage you to look for another canine companion that fits your lifestyle!
+            </p>
+        `;
+        feedbackContainer.style.display = 'flex';
+    }
+});
+
+
