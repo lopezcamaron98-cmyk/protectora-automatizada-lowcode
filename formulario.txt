@@ -1,0 +1,54 @@
+# DOCUMENTACIÓN: FORMULARIO DE ADOPCIÓN (10 PREGUNTAS)
+//provisional, cambiare cosas pero es un buen esqueleto
+
+Este formulario consta de dos fases operativas: 
+1. Filtro Duro (Lógica Web): Validación inmediata contra los ENUM de la tabla `dogs`.
+2. Evaluación Cualitativa (IA en Make): Análisis profundo de texto libre cruzado con la descripción del perro.
+
+---
+
+## FASE 1: FILTRO DURO EN LA WEB (Preguntas Cerradas)
+
+1. ¿Viven niños en el hogar o visitan la vivienda con frecuencia?
+   * Opciones: [Sí] / [No]
+   * Campo asociado: child_compatible
+
+2. ¿Conviven actualmente otros perros en la casa?
+   * Opciones: [No] / [Sí, un macho] / [Sí, una hembra] / [Sí, varios]
+   * Campo asociado: dog_compatible
+
+3. ¿Conviven gatos u otros pequeños animales en el hogar?
+   * Opciones: [Sí] / [No]
+   * Campo asociado: cat_compatible
+
+4. ¿Qué nivel de actividad física diaria está dispuesto a ofrecerle al perro?
+   * Opciones: [Baja (paseos cortos)] / [Media (1h al día)] / [Alta o Muy Alta (ejercicio intenso)]
+   * Campo asociado: activity_level
+
+5. ¿Es esta su primera experiencia siendo el responsable principal de un perro?
+   * Opciones: [Sí] / [No]
+   * Campo asociado: beginer_compatible
+
+6. En caso de ser necesario, ¿estaría dispuesto a formarse para apoyar al perro en su adaptación o necesidades futuras?
+   * Opciones: [Sí, totalmente] / [Solo si es estrictamente necesario] / [No]
+   * Campo asociado: Filtro actitudinal / Gestión interna
+
+7. ¿Cuánto tiempo pasará el perro solo en casa habitualmente en un día normal?
+   * Opciones: [Menos de 4 horas] / [Entre 4 y 8 horas] / [Más de 8 horas]
+   * Campo asociado: Filtro general de bienestar
+
+---
+
+## FASE 2: EVALUACIÓN CON IA EN MAKE (Preguntas Abiertas)
+
+8. Describa su experiencia previa conviviendo con otros perros o, en caso de no tenerla, detalle cuáles son sus expectativas al respecto.
+   * Tipo: Texto libre (Textarea)
+   * Objetivo: Evaluar madurez y realismo en las expectativas de convivencia.
+
+9. Describa cómo es su vivienda actual (tipo, espacios disponibles) y en qué zonas específicas pasará el perro la mayor parte del tiempo.
+   * Tipo: Texto libre (Textarea)
+   * Objetivo: Evaluar adecuación del espacio según el tamaño del perro y detectar riesgos de aislamiento.
+
+10. ¿Por qué se han interesado específicamente en este perro (por su ID/Nombre), qué rol específico esperan que ocupe en su familia y cómo encajará en su vida diaria?
+    * Tipo: Texto libre (Textarea)
+    * Objetivo: Cruzar motivaciones con la descripción psicológica del perro para asegurar la compatibilidad de estilos de vida.

@@ -20,12 +20,14 @@ CREATE TABLE dogs (
     cat_compatible compatibility_tri_state NOT NULL DEFAULT 'Unknown',
     dog_compatible dog_compatibility_options NOT NULL,
     child_compatible compatibility_tri_state NOT NULL DEFAULT 'Unknown',
+    beginer_compatible compatibility_tri_state NOT NULL DEFAULT 'Unknown',
     activity_level activity_level_options NOT NULL,
     
     birth_date DATE NULL,
     intake_date DATE NOT NULL DEFAULT CURRENT_DATE,
     status adoption_status NOT NULL DEFAULT 'Available for Adoption',
     medical_needs TEXT NULL,
+    descripcion TEXT NULL,
     photo_url TEXT NOT NULL,
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,

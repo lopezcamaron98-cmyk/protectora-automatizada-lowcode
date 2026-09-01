@@ -40,7 +40,7 @@ async function fetchDogs() {
         contenedorPerros.innerHTML = '<p>Cargando perros desde la API...</p>';
 
         // Construimos la URL apuntando directamente a tu tabla 'dogs' con el orden deseado
-        const urlAPI = `${SUPABASE_URL}/rest/v1/dogs?select=id,name,gender,size,status,photo_url,activity_level,medical_needs,birth_date,dog_compatible,cat_compatible,child_compatible,description&order=created_at.desc`;
+        const urlAPI = `${SUPABASE_URL}/rest/v1/dogs?select=id,name,gender,size,status,photo_url,activity_level,medical_needs,birth_date,dog_compatible,cat_compatible,child_compatible,descripcion&order=created_at.desc`;
 
         // Petición HTTP nativa con las cabeceras de seguridad requeridas por Supabase
         const respuesta = await fetch(urlAPI, {
@@ -103,7 +103,7 @@ async function fetchDogs() {
                     <div style="border-top: 1px solid #f3f4f6; padding-top: 0.5rem; margin-top: 0.25rem;">
                         <p style="font-size: 0.75rem; color: #6b7280; margin: 0;"><strong>Description:</strong></p>
                         <p style="font-size: 0.875rem; color: #4b5563; line-height: 1.4; margin: 0.25rem 0;">
-                            ${dog.description ? dog.description : 'No description available yet.'}
+                            ${dog.descripcion ? dog.descripcion : 'No description available yet.'}
                         </p>
                     </div>
 
