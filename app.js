@@ -181,12 +181,51 @@ formularioAdoption.addEventListener('submit', (event) => {
     const formDataInstance = new FormData(formularioAdoption);
     const formValues = Object.fromEntries(formDataInstance.entries());
 
+        // Forzamos la validación nativa de campos obligatorios en el navegador
+    if (!formularioAdoption.checkValidity()) {
+        formularioAdoption.reportValidity(); // Muestra el globito de advertencia nativo en el campo vacío
+        return; // Detiene por completo la ejecución si falta alguna sección por contestar
+    }
+
+
     const veredicto = validateAdoptionRules(formValues, perroSeleccionadoActivo);
 
-    if (veredicto.isValid) {
+        if (veredicto.isValid) {
+        // 1. Escondemos el formulario para limpiar la pantalla
+        formularioAdoption.style.display = 'none';
+
+        // 2. Inyectamos el veredicto de éxito en inglés y el botón de salida dinámico
+        feedbackContainer.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 1rem; padding: 0.5rem 0;">
+                <h3 style="margin-top: 0; font-size: 1.25rem; color: #16a34a;">Application Pre-Approved</h3>
+                <p style="margin: 0 0 1.5rem 0; font-size: 0.95rem; color: #4b5563; line-height: 1.5;">
+                    Thank you for your interest in adopting! We are currently reviewing your application, and you will receive an email shortly.
+                </p>
+                <button type="button" class="btn-active btn-regresar-dinamico" style="padding: 0.5rem 1rem; align-self: flex-start; cursor: pointer;">Return to Catalog</button>
+            </div>
+        `;
+        
+        // Mostramos el contenedor de feedback con el mensaje nuevo
+        feedbackContainer.style.display = 'flex';
+
+        // 3. Conectamos el botón dinámico para que limpie todo y regrese al catálogo
+        feedbackContainer.querySelector('.btn-regresar-dinamico').addEventListener('click', () => {
+            formularioAdoption.style.display = 'flex';
+            feedbackContainer.style.display = 'none';
+            formularioAdoption.reset();
+            
+            btnPerros.className = 'btn-active';
+            btnInicio.className = 'btn-inactive';
+            seccionPerros.className = 'section-visible';
+            seccionInicio.className = 'section-hidden';
+            document.getElementById('seccion-formulario').className = 'section-hidden';
+        });
+
+        // 4. LOG TEMPORAL: Próximo paso para integrar Supabase Backup y Make.com
         console.log("Passed to Make", formValues);
-        alert("¡Filtro superado! Enviando a Make...");
+
     } else {
+
         formularioAdoption.style.display = 'none';
         const listaErroresHTML = veredicto.reasons.map(reason => `<li>${reason}</li>`).join('');
         
@@ -196,11 +235,26 @@ formularioAdoption.addEventListener('submit', (event) => {
             <ul style="padding-left: 1.25rem; margin: 0 0 1.5rem 0; font-size: 0.9rem; color: #1f2937; line-height: 1.5;">
                 ${listaErroresHTML}
             </ul>
-            <p style="font-weight: bold; margin: 0; color: #16a34a; font-size: 0.95rem;">
+            <p style="font-weight: bold; margin: 0 0 1.5rem 0; color: #16a34a; font-size: 0.95rem;">
                 We encourage you to look for another canine companion that fits your lifestyle!
             </p>
+            <!-- Inyectamos el botón de retorno al catálogo -->
+            <button type="button" class="btn-active btn-regresar-dinamico" style="padding: 0.5rem 1rem; cursor: pointer;">Return to Catalog</button>
         `;
         feedbackContainer.style.display = 'flex';
+
+        // Escuchamos el clic en el botón recién creado para limpiar y volver
+        feedbackContainer.querySelector('.btn-regresar-dinamico').addEventListener('click', () => {
+            formularioAdoption.style.display = 'flex';
+            feedbackContainer.style.display = 'none';
+            formularioAdoption.reset();
+            
+            btnPerros.className = 'btn-active';
+            btnInicio.className = 'btn-inactive';
+            seccionPerros.className = 'section-visible';
+            seccionInicio.className = 'section-hidden';
+            document.getElementById('seccion-formulario').className = 'section-hidden';
+        });
     }
 });
 
