@@ -95,13 +95,24 @@ async function fetchDogs() {
             if (dog.birth_date) {
                 const birth = new Date(dog.birth_date);
                 const today = new Date();
-                let age = today.getFullYear() - birth.getFullYear();
-                const monthDiff = today.getMonth() - birth.getMonth();
                 
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                    age--;
+                // 1. Calculamos la diferencia total en meses
+                let totalMonths = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+                if (today.getDate() < birth.getDate()) {
+                    totalMonths--; // Ajuste si aún no ha llegado al día del mes de nacimiento
                 }
-                ageDisplay = age === 0 ? 'Puppy (< 1 year)' : age === 1 ? '1 year old' : `${age} years old`;
+
+                // 2. Clasificamos según el resultado
+                if (totalMonths < 0) {
+                    ageDisplay = 'Puppy (Newborn)';
+                } else if (totalMonths < 12) {
+                    // Si tiene menos de un año, mostramos los meses exactos
+                    ageDisplay = totalMonths === 1 ? 'Puppy (1 month old)' : `Puppy (${totalMonths} months old)`;
+                } else {
+                    // Si tiene un año o más, calculamos los años correspondientes
+                    const ageYears = Math.floor(totalMonths / 12);
+                    ageDisplay = ageYears === 1 ? '1 year old' : `${ageYears} years old`;
+                }
             }
 
             const card = document.createElement('div');
@@ -221,8 +232,45 @@ formularioAdoption.addEventListener('submit', (event) => {
             document.getElementById('seccion-formulario').className = 'section-hidden';
         });
 
-        // 4. LOG TEMPORAL: Próximo paso para integrar Supabase Backup y Make.com
-        console.log("Passed to Make", formValues);
+         // --- GUARDADO DE RESPALDO EN SUPABASE (Silencioso para el usuario) ---
+        const datosSolicitud = {
+            dog_id: perroSeleccionadoActivo.id,
+            applicant_name: formValues.applicant_name,
+            applicant_email: formValues.applicant_email,
+            applicant_phone: formValues.applicant_phone,
+            child_compatible: formValues.child_compatible,
+            dog_compatible: formValues.dog_compatible,
+            cat_compatible: formValues.cat_compatible,
+            activity_level: formValues.activity_level,
+            beginner_compatible: formValues.beginner_compatible,
+            attitude_filter: formValues.attitude_filter,
+            alone_time: formValues.alone_time,
+            experience_text: formValues.experience_text,
+            housing_text: formValues.housing_text,
+            motivation_text: formValues.motivation_text
+        };
+
+        fetch(`${SUPABASE_URL}/rest/v1/adoption_applications`, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(datosSolicitud)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Database insertion rejected");
+            console.log("Backup successfully saved internally.");
+        })
+        .catch(error => {
+            console.error("Internal log:", error);
+            // Solo salta el alert si hay un fallo real de conexión o servidor
+            alert("We are having technical difficulties. Please try again later. Sorry for the inconvenience.");
+        });
+        // --- FIN DEL BLOQUE ---
+
 
     } else {
 

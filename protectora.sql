@@ -50,3 +50,35 @@ FOR ALL
 TO service_role 
 USING (true) 
 WITH CHECK (true);
+
+//tabla de solicitudes
+CREATE SEQUENCE applications_internal_id_seq START WITH 1;
+CREATE TABLE adoption_applications (
+    internal_id INT PRIMARY KEY DEFAULT nextval('applications_internal_id_seq'),
+    id TEXT GENERATED ALWAYS AS ('APP-' || LPAD(internal_id::text, 5, '0')) STORED,
+    
+    -- Relación con el perro
+    dog_id TEXT NOT NULL,
+    
+    -- Datos de Contacto del Solicitante
+    applicant_name TEXT NOT NULL,
+    applicant_email TEXT NOT NULL,
+    applicant_phone TEXT NOT NULL,
+    
+    -- Respuestas del Filtro Duro (Campos cerrados)
+    child_compatible TEXT NOT NULL,
+    dog_compatible TEXT NOT NULL,
+    cat_compatible TEXT NOT NULL,
+    activity_level TEXT NOT NULL,
+    beginner_compatible TEXT NOT NULL,
+    attitude_filter TEXT NOT NULL,
+    alone_time TEXT NOT NULL,
+    
+    -- Respuestas de Evaluación Cualitativa (Campos abiertos largos)
+    experience_text TEXT NOT NULL,
+    housing_text TEXT NOT NULL,
+    motivation_text TEXT NOT NULL,
+    
+    -- Control de fecha automático en el servidor
+    submitted_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

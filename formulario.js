@@ -41,7 +41,7 @@ export function validateAdoptionRules(formData, dogMetadata) {
 
     // 6. Actitud/Formación (Pregunta del formulario)
     if (formData.attitude_filter === 'no') {
-        rejectionReasons.push("Adopting this dog requires a commitment to follow professional training if necessary.");
+        rejectionReasons.push("Adopting a dog requires a commitment to follow professional training if necessary.");
     }
 
     return {

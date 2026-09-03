@@ -43,11 +43,11 @@
         <div class="nav-container">
             <div class="logo">
                 <span>🐾</span>
-                <span>Huellas Felices</span>
+                <span>Happy Paws</span>
             </div>
             <nav>
-                <button id="btn-inicio" class="btn-active">Inicio</button>
-                <button id="btn-perros" class="btn-inactive">Perros en Adopción</button>
+                <button id="btn-inicio" class="btn-active">Home</button>
+                <button id="btn-perros" class="btn-inactive">Our Dogs</button>
             </nav>
         </div>
     </header>
@@ -57,11 +57,14 @@
         <section id="seccion-inicio" class="section-visible">
             <div class="card-inicio">
                 <div class="img-container">
-                    //quito el enlace de momento
+                    <img src="https://zooasis.org/wp-content/uploads/2026/07/Jimbe-Guerrero-del-mar-1024x683.webp" alt="Jimbe - Perro en adopción">
                 </div>
                 <div class="texto-container">
-                    <h2>Bienvenidos a nuestra protectora</h2>
-                    <p>Aquí irá el texto de presentación de tu protectora. Puedes explicar la misión del refugio, cómo cuidáis a los animales y por qué es tan importante realizar un proceso de selección responsable antes de cada adopción.</p>
+                    <h2>Welcome</h2>
+                    <p>
+                     This platform is a software development project, but all the dogs shown here are real animals currently looking for a home on the website "https://zooasis.org/". Please note that their compatibility traits and descriptions have been modified for testing and evaluation purposes.
+                    </p>
+
                 </div>
             </div>
         </section>
@@ -69,7 +72,7 @@
         <!-- PESTAÑA 2: PERROS -->
         <section id="seccion-perros" class="section-hidden">
             <div class="grid-perros" id="contenedor-perros">
-                <p>Cargando perros desde la base de datos...</p>
+                <p>...</p>
             </div>
         </section>
                 <!-- PESTAÑA 3: FORMULARIO DE ADOPCIÓN (Oculto por defecto) -->
@@ -186,7 +189,7 @@
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label for="housing-text" style="font-weight: 500; font-size: 0.95rem;">9. Describe your current housing type/available spaces and where the dog will spend most of its time.</label>
+                            <label for="housing-text" style="font-weight: 500; font-size: 0.95rem;">9. Do you live alone? If not, please describe all members of the household, including pets. Also, describe your current home and where the dog will spend most of its time. </label>
                             <textarea id="housing-text" name="housing_text" rows="3" required placeholder="Write your detailed answer here..." style="padding: 0.5rem; border-radius: 0.375rem; border: 1px solid #d1d5db; font-family: sans-serif;"></textarea>
                         </div>
 
@@ -205,7 +208,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Huellas Felices. Todos los derechos reservados.</p>
+         <p>&copy; 2026 Happy Paws. Developed by Laura López Camarón as a software project.</p>
     </footer>
 
  <!-- Limpio: Sin librerías externas corruptibles -->
