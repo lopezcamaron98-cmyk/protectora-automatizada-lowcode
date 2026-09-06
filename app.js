@@ -271,6 +271,55 @@ formularioAdoption.addEventListener('submit', (event) => {
         });
         // --- FIN DEL BLOQUE ---
 
+                // --- ADICIÓN: ENVÍO AUTOMATIZADO A MAKE.COM ---
+        // Preparamos el payload unificado (Respuestas del Adoptante + Contexto del Perro)
+        const payloadMake = {
+            applicant: {
+                name: formValues.applicant_name,
+                email: formValues.applicant_email,
+                phone: formValues.applicant_phone,
+                answers: {
+                    child_compatible: formValues.child_compatible,
+                    dog_compatible: formValues.dog_compatible,
+                    cat_compatible: formValues.cat_compatible,
+                    activity_level: formValues.activity_level,
+                    beginner_compatible: formValues.beginner_compatible,
+                    attitude_filter: formValues.attitude_filter,
+                    alone_time: formValues.alone_time
+                },
+                qualitative_texts: {
+                    experience: formValues.experience_text,
+                    housing: formValues.housing_text,
+                    motivation: formValues.motivation_text
+                }
+            },
+            // Enviamos el objeto literal del perro íntegro con todas sus columnas de Supabase
+            dog: perroSeleccionadoActivo, 
+            submitted_at: new Date().toISOString()
+        };
+
+
+        const URL_WEBHOOK_MAKE = 'https://hook.eu1.make.com/r5iwcn98x3xh21nsj60wnkew7jbw9lp6';
+
+        fetch(URL_WEBHOOK_MAKE, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payloadMake)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Webhook processing failed");
+            console.log("Payload successfully delivered to Make!");
+        })
+        .catch(error => {
+            console.error("External connection log:", error);
+            // Si el webhook de Make se cae o falla, avisamos discretamente en inglés
+            alert("We are having technical difficulties. Please try again later. Sorry for the inconvenience.");
+        });
+        // --- FIN DE LA ADICIÓN TO MAKE ---
+
+
 
     } else {
 
