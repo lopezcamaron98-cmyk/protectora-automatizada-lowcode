@@ -354,5 +354,75 @@ formularioAdoption.addEventListener('submit', (event) => {
         });
     }
 });
+// ==========================================
+// Botón para probar la IA y no mi paciencia
+// ==========================================
+function injectDevTestingTools() {
+    const devBtn = document.createElement('button');
+    devBtn.innerText = '🧪 Auto-Fill Closed Fields (Pass Profile)';
+    devBtn.style.position = 'fixed';
+    devBtn.style.top = '50px';
+    devBtn.style.right = '20px';
+    devBtn.style.zIndex = '9999';
+    devBtn.style.backgroundColor = '#1e293b';
+    devBtn.style.color = '#ffffff';
+    devBtn.style.border = 'none';
+    devBtn.style.padding = '0.5rem 1rem';
+    devBtn.style.borderRadius = '0.5rem';
+    devBtn.style.cursor = 'pointer';
+    devBtn.style.fontWeight = '600';
+    devBtn.style.fontSize = '0.75rem';
+    devBtn.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.1)';
+
+    devBtn.addEventListener('click', () => {
+        // --- APPLICANT CONTACT INFO ---
+        const inputName = document.getElementById('applicant-name');
+        if (inputName) inputName.value = 'John Doe';
+
+        const inputEmail = document.getElementById('applicant-email');
+        if (inputEmail) inputEmail.value = 'john.doe.test@example.com';
+
+        const inputPhone = document.getElementById('applicant-phone');
+        if (inputPhone) inputPhone.value = '+34 600 000 000';
+
+        // --- CLOSED AUTOMATION QUESTIONS ---
+        // 1. Kids: No
+        const selectChild = document.getElementById('child-compatible');
+        if (selectChild) selectChild.value = 'false';
+
+        // 2. Other dogs: No
+        const selectDog = document.getElementById('dog-compatible');
+        if (selectDog) selectDog.value = 'none';
+
+        // 3. Cats/small animals: No
+        const selectCat = document.getElementById('cat-compatible');
+        if (selectCat) selectCat.value = 'false';
+
+        // 4. Activity level: High or Very High
+        const selectActivity = document.getElementById('activity-level');
+        if (selectActivity) selectActivity.value = 'high';
+
+        // 5. First experience: No (indica dueño experimentado)
+        const selectBeginner = document.getElementById('beginner-compatible');
+        if (selectBeginner) selectBeginner.value = 'false';
+
+        // 6. Willing to undergo training: Yes, absolutely
+        const selectAttitude = document.getElementById('attitude-filter');
+        if (selectAttitude) selectAttitude.value = 'yes';
+
+        // 7. Alone time: Less than 4 hours
+        const selectAlone = document.getElementById('alone-time');
+        if (selectAlone) selectAlone.value = 'short';
+
+        console.log("✅ Contact info and 7 closed fields populated successfully.");
+    });
+
+    document.body.appendChild(devBtn);
+}
+
+// Ejecución controlada en entorno de desarrollo local
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    injectDevTestingTools();
+}
 
 
