@@ -3,8 +3,7 @@ import { validateAdoptionRules } from './formulario.js';
 
 // Configuración de Supabase
 
-const SUPABASE_URL = 'https://tdvvmusnlumltrctausl.supabase.co'; // Tu URL real
-const SUPABASE_ANON_KEY = 'sb_publishable_R59ii3WGhJoU8KVILWgCSQ_EWl7894w'; // Tu Anon Key real
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
 let supabaseClient = null; // Empezamos vacío
 
